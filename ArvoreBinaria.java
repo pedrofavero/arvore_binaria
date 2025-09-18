@@ -8,19 +8,19 @@ public class ArvoreBinaria {
 
     public Node inserir(Node raiz, int valor) {
 
-        if(raiz == null){
+        if(raiz == null){ // ENCONTROU A POSICAO (CASO BASE)
             return new Node(valor);
         }
-        if (raiz.info > valor) {
+        if (raiz.info > valor) { // VALOR MENOR CAMINHA PARA A ESQUERDA
             if (raiz.esquerda != null) {
-                inserir(raiz.esquerda, valor);
-            } else {
+                inserir(raiz.esquerda, valor); // CHAMA A RECURSAO
+            } else { // ECONTROU A POSICAO
                 raiz.esquerda = new Node(valor);
             }
-        } else {
+        } else { // VALOR MAIOR CAMINHA PARA A DIREITA
             if (raiz.direita != null) {
-                inserir(raiz.direita, valor);
-            } else {
+                inserir(raiz.direita, valor); // CHAMA A RECURSAO
+            } else { // ENCONTROU A POSICAO
                 raiz.direita = new Node(valor);
             }
         }
@@ -54,53 +54,53 @@ public class ArvoreBinaria {
 
 
     public Node removerMaior(Node raiz) {
-        if (raiz.direita == null) {
+        if (raiz.direita == null) { // ENCONTROU O MAIOR (CASO BASE)
             return raiz.esquerda;
         }
-        else {
+        else { // CAMINHA PARA A DIREITA PARA ACHAR O MAIOR
             raiz.direita = removerMaior(raiz.direita);
             return raiz;
         }
     }
 
     public Node removerMenor(Node raiz) {
-        if (raiz.esquerda == null) {
+        if (raiz.esquerda == null) { // ECONTROU O MENOR
             return raiz.direita;
         }
-        else{
+        else{ // CAMINHA PARA A ESQUERDA PARA ACHAR O MENOR
             raiz.esquerda = removerMenor(raiz.esquerda);
             return raiz;
         }
     }
 
     public Node removerElemento(Node raiz, int elemento) {
-        if (raiz == null) {
+        if (raiz == null) { // NAO ENCONTROU O ELEMENTO
             System.out.println("O elemento " + elemento + " não existe");
             return null;
         }
 
-        if (elemento > raiz.info) {
-            raiz.direita = removerElemento(raiz.direita, elemento);
+        if (elemento > raiz.info) { // ELEMENTO MAIOR, CAMINHA PARA A DIREITA
+            raiz.direita = removerElemento(raiz.direita, elemento); // CHAMA A RECURSAO
         }
-        else if (elemento < raiz.info) {
-            raiz.esquerda = removerElemento(raiz.esquerda, elemento);
+        else if (elemento < raiz.info) { // ELEMENTO MENOR
+            raiz.esquerda = removerElemento(raiz.esquerda, elemento); // CHAMA A RECURSÃO
         }
 
-        else {
-            if (raiz.esquerda == null && raiz.direita == null) {
+        else { // ENCONTROU O ELEMENTO
+            if (raiz.esquerda == null && raiz.direita == null) { // CASO O ELEMENTO NAO TENHA FILHOS
                 return null;
             }
 
-            else if (raiz.esquerda == null) {
+            else if (raiz.esquerda == null) { // CASO TENHA SOMENTE O FILHO DA DIREITA
                 return raiz.direita;
-            } else if (raiz.direita == null) {
+            } else if (raiz.direita == null) { // CASO TENHA SOMENTE O FILHO DA ESQUERDA
                 return raiz.esquerda;
             }
 
-            else {
-                Node aux = buscarMaior(raiz.esquerda);
-                raiz.info = aux.info;
-                raiz.esquerda = removerElemento(raiz.esquerda, aux.info);
+            else { // CASO TENHA DOIS FILHOS
+                Node aux = buscarMaior(raiz.esquerda); // BUSCA O MAIOR ELEMENTO DA ESQUERDA
+                raiz.info = aux.info; // ALTERA A INFORMAÇÃO DO ELEMENTO A SER REMOVIDO
+                raiz.esquerda = removerElemento(raiz.esquerda, aux.info); // REMOVE O MAIOR DA ESQUERDA
             }
         }
         return raiz;
